@@ -1,4 +1,4 @@
-import { getDashboardStatsAction } from "@/app/actions/customers";
+﻿import { getDashboardStatsAction } from "@/app/actions/customers";
 import { Users, DollarSign, ShoppingBag, Award, ArrowUpRight, TrendingUp, Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -18,10 +18,10 @@ export default async function DashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white flex items-center gap-2">
-            Visão Geral do E-commerce 📊
+            VisÃ£o Geral do E-commerce ðŸ“Š
           </h1>
           <p className="text-sm text-slate-400 mt-1">
-            Métricas em tempo real diretamente do banco Neon PostgreSQL.
+            MÃ©tricas em tempo real diretamente do banco Neon PostgreSQL.
           </p>
         </div>
 
@@ -36,7 +36,7 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Grid de Cards de Estatísticas */}
+      {/* Grid de Cards de EstatÃ­sticas */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
         {/* Receita Total */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-sm relative overflow-hidden group hover:border-slate-700 transition">
@@ -73,7 +73,7 @@ export default async function DashboardPage() {
               {stats.totalOrders}
             </p>
             <p className="text-xs text-slate-400 mt-1">
-              Ticket Médio: <span className="text-slate-200 font-semibold">{formatCurrency(stats.averageTicket)}</span>
+              Ticket MÃ©dio: <span className="text-slate-200 font-semibold">{formatCurrency(stats.averageTicket)}</span>
             </p>
           </div>
         </div>
@@ -119,17 +119,17 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Grid Inferior: Últimos Pedidos & Novos Clientes */}
+      {/* Grid Inferior: Ãšltimos Pedidos & Novos Clientes */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Tabela de Últimos Pedidos (2 colunas) */}
+        {/* Tabela de Ãšltimos Pedidos (2 colunas) */}
         <div className="lg:col-span-2 rounded-2xl bg-slate-900/60 border border-slate-800 p-5 md:p-6 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-5">
             <div>
               <h2 className="text-lg font-bold text-white tracking-tight">
-                Últimos Pedidos
+                Ãšltimos Pedidos
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Transações processadas recentemente
+                TransaÃ§Ãµes processadas recentemente
               </p>
             </div>
             <Link
@@ -143,15 +143,15 @@ export default async function DashboardPage() {
           {stats.recentOrders.length === 0 ? (
             <div className="text-center py-12 border border-dashed border-slate-800 rounded-xl">
               <ShoppingBag className="mx-auto h-8 w-8 text-slate-600 mb-2" />
-              <p className="text-sm text-slate-400 font-medium">Nenhum pedido lançado ainda</p>
-              <p className="text-xs text-slate-400 mt-1">Vá em Clientes para adicionar uma nova venda.</p>
+              <p className="text-sm text-slate-400 font-medium">Nenhum pedido lanÃ§ado ainda</p>
+              <p className="text-xs text-slate-400 mt-1">VÃ¡ em Clientes para adicionar uma nova venda.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
                   <tr className="border-b border-slate-800 text-[11px] uppercase tracking-wider text-slate-400">
-                    <th className="pb-3 font-semibold">Código</th>
+                    <th className="pb-3 font-semibold">CÃ³digo</th>
                     <th className="pb-3 font-semibold">Cliente</th>
                     <th className="pb-3 font-semibold">Valor</th>
                     <th className="pb-3 font-semibold">Status</th>
@@ -182,7 +182,7 @@ export default async function DashboardPage() {
                         </span>
                       </td>
                       <td className="py-3 text-xs text-slate-400">
-                        {new Date(ord.placedAt).toLocaleDateString("pt-BR")}
+                        {new Date(ord.createdAt).toLocaleDateString("pt-BR")}
                       </td>
                     </tr>
                   ))}
@@ -200,7 +200,7 @@ export default async function DashboardPage() {
                 Clientes Recentes
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Últimos contatos adicionados
+                Ãšltimos contatos adicionados
               </p>
             </div>
             <Link
@@ -219,7 +219,7 @@ export default async function DashboardPage() {
                 href="/dashboard/customers"
                 className="inline-block mt-3 text-xs text-emerald-400 hover:underline"
               >
-                Cadastrar primeiro cliente →
+                Cadastrar primeiro cliente â†’
               </Link>
             </div>
           ) : (
@@ -258,3 +258,4 @@ export default async function DashboardPage() {
     </div>
   );
 }
+

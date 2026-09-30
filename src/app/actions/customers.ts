@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
@@ -17,7 +17,7 @@ export type CustomerFormState = {
 export async function getCustomersAction(query?: string, status?: string) {
   const session = await auth();
   if (!session?.user) {
-    throw new Error("Não autorizado");
+    throw new Error("NÃ£o autorizado");
   }
 
   const whereClause: any = {};
@@ -39,7 +39,7 @@ export async function getCustomersAction(query?: string, status?: string) {
     orderBy: { createdAt: "desc" },
     include: {
       orders: {
-        orderBy: { placedAt: "desc" },
+        orderBy: { createdAt: "desc" },
         take: 3,
       },
     },
@@ -70,11 +70,11 @@ export async function createCustomerAction(formData: FormData): Promise<Customer
       : [];
 
     if (!name || name.length < 2) {
-      return { error: "O nome do cliente é obrigatório." };
+      return { error: "O nome do cliente Ã© obrigatÃ³rio." };
     }
 
     if (!email || !email.includes("@")) {
-      return { error: "Informe um e-mail válido." };
+      return { error: "Informe um e-mail vÃ¡lido." };
     }
 
     const existing = await prisma.customer.findUnique({
@@ -82,7 +82,7 @@ export async function createCustomerAction(formData: FormData): Promise<Customer
     });
 
     if (existing) {
-      return { error: "Já existe um cliente cadastrado com este e-mail." };
+      return { error: "JÃ¡ existe um cliente cadastrado com este e-mail." };
     }
 
     await prisma.customer.create({
@@ -94,7 +94,7 @@ export async function createCustomerAction(formData: FormData): Promise<Customer
         status,
         tags,
         notes,
-        createdById: session.user.id || undefined,
+        
       },
     });
 
@@ -113,7 +113,7 @@ export async function createCustomerAction(formData: FormData): Promise<Customer
 export async function updateCustomerAction(customerId: string, formData: FormData): Promise<CustomerFormState> {
   const session = await auth();
   if (!session?.user) {
-    return { error: "Não autorizado." };
+    return { error: "NÃ£o autorizado." };
   }
 
   try {
@@ -128,8 +128,8 @@ export async function updateCustomerAction(customerId: string, formData: FormDat
       ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean)
       : [];
 
-    if (!name) return { error: "O nome não pode ficar vazio." };
-    if (!email) return { error: "O e-mail não pode ficar vazio." };
+    if (!name) return { error: "O nome nÃ£o pode ficar vazio." };
+    if (!email) return { error: "O e-mail nÃ£o pode ficar vazio." };
 
     await prisma.customer.update({
       where: { id: customerId },
@@ -159,7 +159,7 @@ export async function updateCustomerAction(customerId: string, formData: FormDat
 export async function deleteCustomerAction(customerId: string): Promise<CustomerFormState> {
   const session = await auth();
   if (!session?.user) {
-    return { error: "Não autorizado." };
+    return { error: "NÃ£o autorizado." };
   }
 
   try {
@@ -172,7 +172,7 @@ export async function deleteCustomerAction(customerId: string): Promise<Customer
     return { success: true, message: "Cliente removido com sucesso." };
   } catch (error: any) {
     console.error("Erro ao excluir cliente:", error);
-    return { error: "Não foi possível excluir o cliente." };
+    return { error: "NÃ£o foi possÃ­vel excluir o cliente." };
   }
 }
 
@@ -182,7 +182,7 @@ export async function deleteCustomerAction(customerId: string): Promise<Customer
 export async function createOrderAction(customerId: string, formData: FormData): Promise<CustomerFormState> {
   const session = await auth();
   if (!session?.user) {
-    return { error: "Não autorizado." };
+    return { error: "NÃ£o autorizado." };
   }
 
   try {
@@ -207,7 +207,7 @@ export async function createOrderAction(customerId: string, formData: FormData):
         },
       });
 
-      // 2. Se o status for PAID ou DELIVERED, incrementa métricas do cliente
+      // 2. Se o status for PAID ou DELIVERED, incrementa mÃ©tricas do cliente
       if (status === "PAID" || status === "DELIVERED") {
         await tx.customer.update({
           where: { id: customerId },
@@ -223,7 +223,7 @@ export async function createOrderAction(customerId: string, formData: FormData):
     revalidatePath("/dashboard");
     revalidatePath("/dashboard/customers");
     revalidatePath("/dashboard/orders");
-    return { success: true, message: `Pedido ${orderNumber} lançado com sucesso!` };
+    return { success: true, message: `Pedido ${orderNumber} lanÃ§ado com sucesso!` };
   } catch (error: any) {
     console.error("Erro ao criar pedido:", error);
     return { error: "Falha ao cadastrar pedido." };
@@ -236,7 +236,7 @@ export async function createOrderAction(customerId: string, formData: FormData):
 export async function getDashboardStatsAction() {
   const session = await auth();
   if (!session?.user) {
-    throw new Error("Não autorizado");
+    throw new Error("NÃ£o autorizado");
   }
 
   const [
@@ -253,7 +253,7 @@ export async function getDashboardStatsAction() {
       _count: { id: true },
     }),
     prisma.order.findMany({
-      orderBy: { placedAt: "desc" },
+      orderBy: { createdAt: "desc" },
       take: 6,
       include: {
         customer: {
@@ -281,3 +281,5 @@ export async function getDashboardStatsAction() {
     recentCustomers,
   };
 }
+
+
