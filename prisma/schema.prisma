@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -33,31 +34,34 @@ model User {
   name          String?
   email         String    @unique
   passwordHash  String
-  role          Role      @default(ADMIN)
+  role          Role      @default(STAFF)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
   customers     Customer[]
 }
 
 model Customer {
-  id             String         @id @default(cuid())
-  name           String
-  email          String         @unique
-  phone          String?
-  company        String?
-  avatarUrl      String?
-  status         CustomerStatus @default(REGULAR)
-  totalSpent     Float          @default(0.0)
-  totalOrders    Int            @default(0)
-  lastOrderDate  DateTime?
-  tags           String[]       @default([])
-  notes          String?
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  id            String         @id @default(cuid())
+  name          String
+  email         String         @unique
+  phone         String?
+  company       String?
+  avatar        String?
+  status        CustomerStatus @default(REGULAR)
+  totalSpent    Float          @default(0.0)
+  totalOrders   Int            @default(0)
+  lastOrderDate DateTime?
+  tags          String[]       @default([])
+  notes         String?
 
-  createdById    String?
-  createdBy      User?          @relation(fields: [createdById], references: [id])
-  orders         Order[]
+  assignedToId  String?
+  assignedTo    User?          @relation(fields: [assignedToId], references: [id])
+
+  orders        Order[]
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Order {
@@ -66,10 +70,10 @@ model Order {
   amount      Float
   status      OrderStatus @default(PENDING)
   itemsCount  Int         @default(1)
-  placedAt    DateTime    @default(now())
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-
+  
   customerId  String
   customer    Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
